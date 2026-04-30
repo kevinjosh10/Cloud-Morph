@@ -1,0 +1,4 @@
+This is a sample test file for CloudMorph.
+It contains a few sentences.
+We will use this to verify the serverless backend.
+Cloud computing is awesome!
