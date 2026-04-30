@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudMorph | Serverless File Intelligence</title>
+    <meta name="description" content="Serverless File Intelligence Platform powered by AWS">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace']
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            900: '#134e4a',
+                        },
+                        dark: '#0f172a'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body class="bg-dark text-slate-200 min-h-screen relative overflow-x-hidden antialiased flex flex-col">
+    <!-- Ambient Background Effects -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary-600/20 blur-[120px]"></div>
+        <div class="absolute top-[40%] -right-[10%] w-[40%] h-[60%] rounded-full bg-blue-600/20 blur-[120px]"></div>
+        <div class="absolute -bottom-[20%] left-[20%] w-[60%] h-[50%] rounded-full bg-purple-600/20 blur-[120px]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-10 glass-nav border-b border-white/10 sticky top-0 w-full transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-blue-600 flex items-center justify-center shadow-lg shadow-primary-500/30 group-hover:shadow-primary-500/50 transition-all duration-300 transform group-hover:scale-105">
+                        <i class="fa-solid fa-cloud-bolt text-white text-xl"></i>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight text-white">Cloud<span class="text-primary-500">Morph</span></span>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-white font-medium hover:text-primary-400 transition-colors">Upload</a>
+                    <a href="#results" class="text-slate-300 hover:text-white transition-colors">Results</a>
+                    <a href="#about" class="text-slate-300 hover:text-white transition-colors">About</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-start pt-12 pb-24 px-4 sm:px-6 lg:px-8 w-full max-w-7xl mx-auto">
+        
+        <div class="text-center mb-12 animate-fade-in-up">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight">
+                Serverless File <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-blue-500">Intelligence</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
+                Upload your files and let our AWS-powered cloud engine extract insights in real-time. Fast, secure, and purely serverless.
+            </p>
+        </div>
+
+        <div class="w-full max-w-3xl glass-card rounded-3xl p-1 shadow-2xl animate-fade-in-up" style="animation-delay: 0.1s;">
+            <div class="bg-slate-900/50 rounded-[22px] p-6 sm:p-10 border border-white/5">
+                
+                <!-- Upload Zone -->
+                <div id="drop-zone" class="relative border-2 border-dashed border-slate-600 rounded-2xl p-10 flex flex-col items-center justify-center text-center transition-all duration-300 hover:border-primary-500 hover:bg-slate-800/50 group cursor-pointer bg-slate-800/20">
+                    <input type="file" id="file-input" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".pdf,.csv,.txt">
+                    
+                    <div class="w-20 h-20 rounded-full bg-slate-800 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary-900/50 transition-all duration-300 shadow-lg">
+                        <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-400 group-hover:text-primary-400 transition-colors"></i>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-white mb-2">Drag & Drop your file here</h3>
+                    <p class="text-slate-400 mb-6">or click to browse from your device</p>
+                    
+                    <div class="flex gap-3 justify-center">
+                        <span class="px-3 py-1 text-xs font-medium bg-slate-800 text-slate-300 rounded-full border border-slate-700">.PDF</span>
+                        <span class="px-3 py-1 text-xs font-medium bg-slate-800 text-slate-300 rounded-full border border-slate-700">.CSV</span>
+                        <span class="px-3 py-1 text-xs font-medium bg-slate-800 text-slate-300 rounded-full border border-slate-700">.TXT</span>
+                    </div>
+                </div>
+
+                <!-- Selected File Preview (Hidden by default) -->
+                <div id="file-preview" class="hidden mt-6 bg-slate-800/80 rounded-xl p-4 border border-slate-700 flex items-center justify-between">
+                    <div class="flex items-center gap-4 overflow-hidden">
+                        <div class="w-12 h-12 rounded-lg bg-blue-900/50 flex items-center justify-center flex-shrink-0 text-blue-400 border border-blue-800/50">
+                            <i id="file-icon" class="fa-solid fa-file-lines text-xl"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p id="file-name" class="text-sm font-medium text-white truncate w-48 sm:w-64">filename.txt</p>
+                            <p id="file-size" class="text-xs text-slate-400">1.2 MB</p>
+                        </div>
+                    </div>
+                    <button id="remove-file-btn" class="text-slate-400 hover:text-red-400 p-2 transition-colors">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Action Button -->
+                <button id="upload-btn" disabled class="mt-8 w-full relative group overflow-hidden rounded-xl bg-slate-800 text-slate-400 font-semibold py-4 px-6 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 border border-slate-700">
+                    <span id="upload-btn-text" class="relative z-10">Select a File</span>
+                    <i id="upload-btn-icon" class="fa-solid fa-arrow-right relative z-10 hidden"></i>
+                    <div class="absolute inset-0 h-full w-full bg-gradient-to-r from-primary-600 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 ease-out z-0 disabled-bg-hide"></div>
+                </button>
+
+                <!-- Status Indicator (Hidden by default) -->
+                <div id="status-container" class="hidden mt-8">
+                    <div class="flex justify-between text-xs font-medium text-slate-400 mb-2">
+                        <span id="status-text">Uploading to S3...</span>
+                        <span id="status-percentage">0%</span>
+                    </div>
+                    <div class="w-full bg-slate-800 rounded-full h-2 overflow-hidden border border-slate-700">
+                        <div id="progress-bar" class="bg-gradient-to-r from-primary-500 to-blue-500 h-2 rounded-full transition-all duration-300 w-0 relative">
+                            <div class="absolute top-0 left-0 bottom-0 right-0 overflow-hidden rounded-full">
+                                <div class="w-full h-full animate-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Steps visualization -->
+                    <div class="flex justify-between mt-6 text-xs sm:text-sm">
+                        <div class="step flex flex-col items-center text-primary-400 gap-2" id="step-url">
+                            <div class="w-6 h-6 rounded-full bg-primary-900/50 border border-primary-500 flex items-center justify-center"><i class="fa-solid fa-link text-[10px]"></i></div>
+                            <span>Get URL</span>
+                        </div>
+                        <div class="w-full h-[1px] bg-slate-700 mt-3 mx-2"></div>
+                        <div class="step flex flex-col items-center text-slate-500 gap-2" id="step-upload">
+                            <div class="w-6 h-6 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center"><i class="fa-solid fa-cloud-arrow-up text-[10px]"></i></div>
+                            <span>Upload</span>
+                        </div>
+                        <div class="w-full h-[1px] bg-slate-700 mt-3 mx-2"></div>
+                        <div class="step flex flex-col items-center text-slate-500 gap-2" id="step-process">
+                            <div class="w-6 h-6 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center"><i class="fa-solid fa-microchip text-[10px]"></i></div>
+                            <span>Process</span>
+                        </div>
+                        <div class="w-full h-[1px] bg-slate-700 mt-3 mx-2"></div>
+                        <div class="step flex flex-col items-center text-slate-500 gap-2" id="step-done">
+                            <div class="w-6 h-6 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center"><i class="fa-solid fa-check text-[10px]"></i></div>
+                            <span>Done</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Message (Hidden by default) -->
+                <div id="error-message" class="hidden mt-6 bg-red-900/20 border border-red-500/50 rounded-xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-circle-exclamation text-red-400 mt-1"></i>
+                    <div>
+                        <h4 class="text-sm font-semibold text-red-400">Upload Failed</h4>
+                        <p id="error-text" class="text-sm text-red-300/80 mt-1">An error occurred while connecting to the AWS backend.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Results Dashboard (Hidden by default) -->
+        <div id="results-dashboard" class="hidden w-full max-w-4xl mt-16 animate-fade-in-up scroll-mt-24" style="animation-delay: 0.2s;">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i class="fa-solid fa-chart-pie text-primary-500"></i>
+                    Intelligence Report
+                </h2>
+                <button class="text-sm font-medium text-slate-300 hover:text-white px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700 hover:bg-slate-700 transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i> Download
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="stats-grid">
+                <!-- Stats injected dynamically -->
+            </div>
+
+            <div class="glass-card rounded-2xl p-1 overflow-hidden">
+                <div class="bg-slate-900/80 rounded-xl border border-white/5 h-full flex flex-col">
+                    <div class="border-b border-slate-700/50 p-4 flex justify-between items-center bg-slate-800/30">
+                        <h3 class="text-sm font-semibold text-slate-300 font-mono flex items-center gap-2">
+                            <i class="fa-brands fa-js text-yellow-400"></i> raw_output.json
+                        </h3>
+                        <button class="text-slate-400 hover:text-white transition-colors" title="Copy JSON">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 overflow-x-auto">
+                        <pre class="font-mono text-sm text-slate-300"><code id="json-viewer">{
+    "status": "processing"
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 bg-slate-900/50 mt-auto backdrop-blur-md relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-slate-400 text-sm">
+                <i class="fa-solid fa-cloud"></i>
+                <span>Powered by AWS Serverless Architecture</span>
+            </div>
+            <p class="text-slate-500 text-sm">© 2026 CloudMorph Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="src/js/app.js"></script>
+</body>
+</html>
