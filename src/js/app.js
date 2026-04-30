@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // S3 URL for processed output
-            const resultUrl = `${S3_OUTPUT_BASE_URL}/${filename}.json`;
+            const resultUrl = `${S3_OUTPUT_BASE_URL}/uploads/${filename}.json`;
             const response = await fetch(resultUrl);
             
             if (response.ok) {
